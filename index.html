@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cute Cat Hats</title>
+    <link rel="icon" type="image/png" href="Photos/favicon.png">
+    <style>
+        :root {
+            --bg-light: #f5f6fa;
+            --bg-dark: #23272f;
+            --text-light: #23272f;
+            --text-dark: #f5f6fa;
+            --accent: #d15f70;
+            --button-bg: rgba(255,255,255,0.3);
+            --button-bg-dark: rgba(40,40,40,0.5);
+            --button-hover: rgba(255,255,255,0.6);
+            --button-hover-dark: rgba(60,60,60,0.7);
+        }
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: var(--bg-light);
+            color: var(--text-light);
+            transition: background 0.3s, color 0.3s;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        h1 {
+            font-size: 2.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+        .toggle-dark {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.5rem 1.2rem;
+            border: none;
+            border-radius: 2rem;
+            background: var(--button-bg);
+            color: var(--text-light);
+            font-size: 1rem;
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+            transition: background 0.2s, color 0.2s;
+        }
+        .toggle-dark:hover {
+            background: var(--button-hover);
+        }
+        section {
+            margin-bottom: 2.5rem;
+        }
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+            letter-spacing: 1px;
+        }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+        .gallery img {
+            border-radius: 1rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            object-fit: cover;
+            background: #eee;
+            transition: transform 0.2s;
+        }
+        .gallery img:hover {
+            transform: scale(1.04);
+        }
+        /* Variable photo sizes */
+        .gallery img.size-small { width: 120px; height: 120px; }
+        .gallery img.size-medium { width: 180px; height: 180px; }
+        .gallery img.size-large { width: 260px; height: 180px; }
+
+        /* Dark mode styles */
+        body.dark {
+            background: var(--bg-dark);
+            color: var(--text-dark);
+        }
+        body.dark .toggle-dark {
+            background: var(--button-bg-dark);
+            color: var(--text-dark);
+        }
+        body.dark .toggle-dark:hover {
+            background: var(--button-hover-dark);
+        }
+        body.dark h2 {
+            color: #ffd6e0;
+        }
+        body.dark .gallery img {
+            background: #444;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+        }
+        .gallery-item {
+            position: relative;
+            display: inline-block;
+        }
+        .img-desc {
+            display: none;
+            position: absolute;
+            left: 50%;
+            top: 100%;
+            transform: translateX(-50%);
+            margin-top: 0.7rem;
+            background: rgba(40,40,40,0.85);
+            color: #fff;
+            padding: 0.6em 1.2em;
+            border-radius: 0.7em;
+            font-size: 1rem;
+            min-width: 120px;
+            max-width: 220px;
+            width: max-content;
+            text-align: center;
+            z-index: 10;
+            pointer-events: none;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+            white-space: pre-line;
+            word-break: break-word;
+        }
+        .gallery-item.active .img-desc {
+            display: block;
+            animation: fadeIn 0.2s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-50%) translateY(10px);}
+            to { opacity: 1; transform: translateX(-50%) translateY(0);}
+        }
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0; top: 0; right: 0; bottom: 0;
+            background: rgba(30,30,30,0.85);
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.2s;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal-img-box {
+            position: relative;
+            text-align: center;
+            max-width: 90vw;
+            max-height: 90vh;
+        }
+        .modal-img-box img {
+            max-width: 90vw;
+            max-height: 70vh;
+            border-radius: 1.2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+            background: #fff;
+        }
+        .modal-desc {
+            margin-top: 1.2rem;
+            background: rgba(40,40,40,0.85);
+            color: #fff;
+            padding: 0.7em 1.5em;
+            border-radius: 0.7em;
+            font-size: 1.2rem;
+            min-width: 180px;
+            display: inline-block;
+            max-width: 80vw;
+            word-break: break-word;
+        }
+        .modal-close {
+            position: absolute;
+            top: -18px;
+            right: -18px;
+            background: #fff;
+            color: #333;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+        }
+        .modal-close:hover {
+            background: #ffd6e0;
+        }
+    </style>
+</head>
+<body>
+    <button class="toggle-dark" id="darkModeBtn">🌙 Dark Mode</button>
+    <div class="container">
+        <header>
+            <h1>Cute Cat Hats</h1>
+            <p>Adorable felines in stylish headwear!</p>
+        </header>
+
+        <section>
+            <h2>Classic Cat Hats</h2>
+            <div class="gallery">
+                <div class="gallery-item">
+                    <img src="Photos/BasicHat-1.jpg" alt="Cat in a hat" class="size-large">
+                    <div class="img-desc">SOMETHING HERE!</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="Photos/BasicHat-2.jpg" alt="Cat in a hat" class="size-small">
+                    <div class="img-desc">SOMETHING HERE!</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="Photos/BasicHat-3.jpg" alt="Cat in a hat" class="size-medium">
+                    <div class="img-desc">SOMETHING HERE!</div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Seasonal Styles</h2>
+            <div class="gallery">
+                <div class="gallery-item">
+                    <img src="Photos/SkiHat-1.jpg" alt="Cat in a Santa hat" class="size-medium"loading="lazy">
+                    <div class="img-desc">Santa Hat: Ho ho ho!</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="Photos/FlowerHat-1.jpg" alt="Cat in a pumpkin hat" class="size-small"loading="lazy" >
+                    <div class="img-desc">Pumpkin Hat: Spooktacular style!</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="Photos/SkiHat-3.jpg" alt="Cat in a sun hat" class="size-large" loading="lazy">
+                    <div class="img-desc">Sun Hat: Stay cool, kitty!</div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Whimsical Wonders</h2>
+            <div class="gallery">
+                <div class="gallery-item">
+                    <img src="Photos/WitchHat-1.jpg" alt="Cat in a unicorn hat" class="size-small" loading="lazy">
+                    <div class="img-desc">Unicorn Hat: Believe in magic!</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="Photos/ElfHat-2.jpg" alt="Cat in a wizard hat" class="size-large" loading="lazy">
+                    <div class="img-desc">Wizard Hat: Enchantingly cute!</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="Photos/StrawberryHat-2.jpg" alt="Cat in a fruit hat" class="size-medium" loading="lazy">
+                    <div class="img-desc">Fruit Hat: Fresh and fabulous!</div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- Modal overlay for enlarged image -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-img-box">
+            <button class="modal-close" id="modalCloseBtn" title="Close">&times;</button>
+            <img id="modalImg" src="" alt="">
+            <div class="modal-desc" id="modalDesc"></div>
+        </div>
+    </div>
+    <script>
+        // Dark mode toggle with localStorage
+        const btn = document.getElementById('darkModeBtn');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        function setDarkMode(on) {
+            document.body.classList.toggle('dark', on);
+            btn.textContent = on ? '☀️ Light Mode' : '🌙 Dark Mode';
+            localStorage.setItem('catHatDarkMode', on ? '1' : '0');
+        }
+        // Load preference
+        const saved = localStorage.getItem('catHatDarkMode');
+        setDarkMode(saved ? saved === '1' : prefersDark);
+        btn.onclick = () => setDarkMode(!document.body.classList.contains('dark'));
+
+        // Modal logic for enlarged image
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalImg = document.getElementById('modalImg');
+        const modalDesc = document.getElementById('modalDesc');
+        const modalCloseBtn = document.getElementById('modalCloseBtn');
+
+        document.querySelectorAll('.gallery-item img').forEach(img => {
+            img.addEventListener('click', function(e) {
+                // Show modal with enlarged image and description
+                modalImg.src = this.src;
+                modalImg.alt = this.alt;
+                const desc = this.parentElement.querySelector('.img-desc');
+                modalDesc.textContent = desc ? desc.textContent : '';
+                modalOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                e.stopPropagation();
+            });
+        });
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        modalOverlay.addEventListener('click', function(e) {
+            if (e.target === modalOverlay) closeModal();
+        });
+        modalCloseBtn.addEventListener('click', closeModal);
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // Existing popup description logic (optional: you may remove if modal replaces it)
+        document.querySelectorAll('.gallery-item img').forEach(img => {
+            img.addEventListener('click', function(e) {
+                document.querySelectorAll('.gallery-item').forEach(item => item.classList.remove('active'));
+                this.parentElement.classList.add('active');
+                if (this.parentElement.classList.contains('was-active')) {
+                    this.parentElement.classList.remove('active', 'was-active');
+                } else {
+                    this.parentElement.classList.add('was-active');
+                }
+                e.stopPropagation();
+            });
+        });
+        document.body.addEventListener('click', function() {
+            document.querySelectorAll('.gallery-item').forEach(item => {
+                item.classList.remove('active', 'was-active');
+            });
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.gallery-item').forEach(item => {
+                    item.classList.remove('active', 'was-active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
