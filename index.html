@@ -16,6 +16,12 @@
             --button-bg-dark: rgba(40,40,40,0.5);
             --button-hover: rgba(255,255,255,0.6);
             --button-hover-dark: rgba(60,60,60,0.7);
+            --side-nav-bg: #fff;
+            --side-nav-border: #eee;
+            --side-nav-link: #d15f70;
+            --side-nav-link-hover: #a13a4a;
+            --side-nav-link-bg-hover: #ffe6eb;
+            --side-nav-shadow: 2px 0 12px rgba(0,0,0,0.04);
         }
         body {
             margin: 0;
@@ -28,6 +34,7 @@
             max-width: 900px;
             margin: 0 auto;
             padding: 2rem;
+            /* Remove margin-left so content is centered */
         }
         header {
             text-align: center;
@@ -39,7 +46,7 @@
             margin-bottom: 0.5rem;
         }
         .toggle-dark {
-            position: absolute;
+            position: fixed;
             top: 1rem;
             right: 1rem;
             padding: 0.5rem 1.2rem;
@@ -49,8 +56,8 @@
             color: var(--text-light);
             font-size: 1rem;
             cursor: pointer;
-            backdrop-filter: blur(4px);
             transition: background 0.2s, color 0.2s;
+            z-index: 2000;
         }
         .toggle-dark:hover {
             background: var(--button-hover);
@@ -65,25 +72,106 @@
             letter-spacing: 1px;
         }
         .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem 2rem; /* 1.5rem row gap, 2rem column gap for more separation */
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        @media (max-width: 1100px) {
+            .gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 700px) {
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+        .gallery-item {
+            position: relative;
             display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 1.5rem; /* Extra separation between rows */
         }
         .gallery img {
+            image-rendering: auto;
+            width: 100%;
+            max-width: 100%;
+            display: block;
             border-radius: 1rem;
             box-shadow: 0 4px 16px rgba(0,0,0,0.08);
             object-fit: cover;
             background: #eee;
             transition: transform 0.2s;
+            object-position: top center; /* Center the image vertically */
         }
         .gallery img:hover {
             transform: scale(1.04);
         }
         /* Variable photo sizes */
-        .gallery img.size-small { width: 120px; height: 120px; }
-        .gallery img.size-medium { width: 180px; height: 180px; }
-        .gallery img.size-large { width: 260px; height: 180px; }
+        .gallery img.size-short { height: 140px; }
+        .gallery img.size-tall { height: 320px; object-fit: cover; }
+
+        /* Side nav styles */
+        .side-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 170px;
+            height: 100vh;
+            background: var(--side-nav-bg);
+            border-right: 1px solid var(--side-nav-border);
+            box-shadow: var(--side-nav-shadow);
+            padding-top: 2.5rem;
+            z-index: 2100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: background 0.3s, color 0.3s;
+        }
+        .side-nav a {
+            display: block;
+            color: var(--side-nav-link);
+            text-decoration: none;
+            font-weight: bold;
+            margin: 1rem 0;
+            font-size: 1.15rem;
+            padding: 0.5rem 1.2rem;
+            border-radius: 1.2rem;
+            transition: background 0.15s, color 0.15s;
+        }
+        .side-nav a.active,
+        .side-nav a:hover {
+            background: var(--side-nav-link-bg-hover);
+            color: var(--side-nav-link-hover);
+        }
+        /* Center the page content by adding left padding to body */
+        body {
+            padding-left: 170px;
+        }
+        @media (max-width: 700px) {
+            .side-nav {
+                position: static;
+                width: 100%;
+                height: auto;
+                flex-direction: row;
+                border-right: none;
+                border-bottom: 1px solid var(--side-nav-border);
+                box-shadow: none;
+                padding-top: 0.5rem;
+                justify-content: center;
+                background: var(--side-nav-bg);
+            }
+            .side-nav a {
+                margin: 0 0.5rem;
+            }
+            body {
+                padding-left: 0;
+            }
+        }
 
         /* Dark mode styles */
         body.dark {
@@ -103,6 +191,19 @@
         body.dark .gallery img {
             background: #444;
             box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+        }
+        body.dark .side-nav {
+            background: #23272f;
+            border-right: 1px solid #333;
+            box-shadow: 2px 0 12px rgba(0,0,0,0.18);
+        }
+        body.dark .side-nav a {
+            color: #ffd6e0;
+        }
+        body.dark .side-nav a.active,
+        body.dark .side-nav a:hover {
+            background: #3a2a3a;
+            color: #fff;
         }
         .gallery-item {
             position: relative;
@@ -176,26 +277,20 @@
             max-width: 80vw;
             word-break: break-word;
         }
-        .modal-close {
-            position: absolute;
-            top: -18px;
-            right: -18px;
-            background: #fff;
-            color: #333;
-            border: none;
-            border-radius: 50%;
-            width: 36px;
-            height: 36px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+        html {
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
         }
-        .modal-close:hover {
-            background: #ffd6e0;
+        html::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
         }
     </style>
 </head>
 <body>
+    <nav class="side-nav">
+        <a href="index.html" class="active">Home</a>
+        <a href="patterns.html">Patterns</a>
+    </nav>
     <button class="toggle-dark" id="darkModeBtn">🌙 Dark Mode</button>
     <div class="container">
         <header>
@@ -207,15 +302,30 @@
             <h2>Classic Cat Hats</h2>
             <div class="gallery">
                 <div class="gallery-item">
-                    <img src="Photos/BasicHat-1.jpg" alt="Cat in a hat" class="size-large">
+                    <img src="Photos/BasicHat-1.jpg" alt="Cat in a hat" class="size-tall" loading="lazy">
                     <div class="img-desc">SOMETHING HERE!</div>
                 </div>
                 <div class="gallery-item">
-                    <img src="Photos/BasicHat-2.jpg" alt="Cat in a hat" class="size-small">
+                    <img src="Photos/AviatorHat-2.jpg" alt="Cat in a hat" class="size-tall" loading="lazy">
                     <div class="img-desc">SOMETHING HERE!</div>
                 </div>
                 <div class="gallery-item">
-                    <img src="Photos/BasicHat-3.jpg" alt="Cat in a hat" class="size-medium">
+                    <img src="Photos/BasicHat-3.jpg" alt="Cat in a hat" class="size-tall" loading="lazy">
+                    <div class="img-desc">SOMETHING HERE!</div>
+                </div>
+            </div>
+
+            <div class="gallery">
+                <div class="gallery-item">
+                    <img src="Photos/BunnyHat-1.jpg" alt="Cat in a hat" class="size-tall" loading="lazy">
+                    <div class="img-desc">SOMETHING HERE!</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="Photos/BunnyHat-2.jpg" alt="Cat in a hat" class="size-tall" loading="lazy">
+                    <div class="img-desc">SOMETHING HERE!</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="Photos/BunnyHat-3.jpg" alt="Cat in a hat" class="size-tall" loading="lazy">
                     <div class="img-desc">SOMETHING HERE!</div>
                 </div>
             </div>
@@ -225,16 +335,31 @@
             <h2>Seasonal Styles</h2>
             <div class="gallery">
                 <div class="gallery-item">
-                    <img src="Photos/SkiHat-1.jpg" alt="Cat in a Santa hat" class="size-medium"loading="lazy">
-                    <div class="img-desc">Santa Hat: Ho ho ho!</div>
+                    <img src="Photos/SkiHat-1.jpg" alt="Cat in a Santa hat" class="size-tall" loading="lazy">
+                    <div class="img-desc">SOMETHING HERE!</div>
                 </div>
                 <div class="gallery-item">
-                    <img src="Photos/FlowerHat-1.jpg" alt="Cat in a pumpkin hat" class="size-small"loading="lazy" >
-                    <div class="img-desc">Pumpkin Hat: Spooktacular style!</div>
+                    <img src="Photos/FlowerHat-1.jpg" alt="Cat in a pumpkin hat" class="size-tall" loading="lazy" >
+                    <div class="img-desc">SOMETHING HERE!</div>
                 </div>
                 <div class="gallery-item">
-                    <img src="Photos/SkiHat-3.jpg" alt="Cat in a sun hat" class="size-large" loading="lazy">
-                    <div class="img-desc">Sun Hat: Stay cool, kitty!</div>
+                    <img src="Photos/SkiHat-3.jpg" alt="Cat in a sun hat" class="size-tall" loading="lazy">
+                    <div class="img-desc">SOMETHING HERE!</div>
+                </div>
+            </div>
+
+            <div class="gallery">
+                <div class="gallery-item">
+                    <img src="Photos/FootballHat-1.jpg" alt="Cat in a Santa hat" class="size-tall"loading="lazy">
+                    <div class="img-desc">SOMETHING HERE!</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="Photos/PatriotHat-1.jpg" alt="Cat in a pumpkin hat" class="size-tall"loading="lazy" >
+                    <div class="img-desc">SOMETHING HERE!</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="Photos/GraduationHat-1.jpg" alt="Cat in a sun hat" class="size-tall" loading="lazy">
+                    <div class="img-desc">SOMETHING HERE!</div>
                 </div>
             </div>
         </section>
@@ -243,26 +368,48 @@
             <h2>Whimsical Wonders</h2>
             <div class="gallery">
                 <div class="gallery-item">
-                    <img src="Photos/WitchHat-1.jpg" alt="Cat in a unicorn hat" class="size-small" loading="lazy">
-                    <div class="img-desc">Unicorn Hat: Believe in magic!</div>
+                    <img src="Photos/WitchHat-1.jpg" alt="Cat in a unicorn hat" class="size-tall" loading="lazy">
+                    <div class="img-desc">SOMETHING HERE!</div>
                 </div>
                 <div class="gallery-item">
-                    <img src="Photos/ElfHat-2.jpg" alt="Cat in a wizard hat" class="size-large" loading="lazy">
-                    <div class="img-desc">Wizard Hat: Enchantingly cute!</div>
+                    <img src="Photos/ElfHat-2.jpg" alt="Cat in a wizard hat" class="size-tall" loading="lazy">
+                    <div class="img-desc">SOMETHING HERE!</div>
                 </div>
                 <div class="gallery-item">
-                    <img src="Photos/StrawberryHat-2.jpg" alt="Cat in a fruit hat" class="size-medium" loading="lazy">
-                    <div class="img-desc">Fruit Hat: Fresh and fabulous!</div>
+                    <img src="Photos/StrawberryHat-2.jpg" alt="Cat in a fruit hat" class="size-tall" loading="lazy">
+                    <div class="img-desc">SOMETHING HERE!</div>
                 </div>
+            </div>
+
+            <div class="gallery">
+                <div class="gallery-item">
+                    <img src="Photos/UnicornHat-1.jpg" alt="Cat in a unicorn hat" class="size-tall" loading="lazy">
+                    <div class="img-desc">SOMETHING HERE!</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="Photos/WitchHat-2.jpg" alt="Cat in a wizard hat" class="size-tall" loading="lazy">
+                    <div class="img-desc">SOMETHING HERE!</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="Photos/UnicornHat-2.jpg" alt="Cat in a fruit hat" class="size-tall" loading="lazy">
+                    <div class="img-desc">SOMETHING HERE!</div>
+                    </div>
             </div>
         </section>
     </div>
     <!-- Modal overlay for enlarged image -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-img-box">
-            <button class="modal-close" id="modalCloseBtn" title="Close">&times;</button>
             <img id="modalImg" src="" alt="">
             <div class="modal-desc" id="modalDesc"></div>
+            <div id="commentsSection" style="margin-top:1.5rem; text-align:left; max-width: 600px; margin-left:auto; margin-right:auto;">
+                <h3 style="margin-bottom:0.5rem; font-size:1.1rem; color:var(--accent);">Comments</h3>
+                <ul id="commentsList" style="list-style:none; padding:0; margin-bottom:1rem;"></ul>
+                <form id="commentForm" style="display:flex; gap:0.5rem;">
+                    <input id="commentInput" type="text" placeholder="Add a comment..." style="flex:1; padding:0.5em; border-radius:0.5em; border:1px solid #ccc; font-size:1rem;">
+                    <button type="submit" style="padding:0.5em 1em; border-radius:0.5em; border:none; background:var(--accent); color:#fff; font-weight:bold; cursor:pointer;">Post</button>
+                </form>
+            </div>
         </div>
     </div>
     <script>
@@ -283,20 +430,67 @@
         const modalOverlay = document.getElementById('modalOverlay');
         const modalImg = document.getElementById('modalImg');
         const modalDesc = document.getElementById('modalDesc');
-        const modalCloseBtn = document.getElementById('modalCloseBtn');
+        const commentsSection = document.getElementById('commentsSection');
+        const commentsList = document.getElementById('commentsList');
+        const commentForm = document.getElementById('commentForm');
+        const commentInput = document.getElementById('commentInput');
+        let currentPhoto = null;
+
+        function fetchComments(photo) {
+            commentsList.innerHTML = '<li style="color:#888;">Loading...</li>';
+            fetch(`http://localhost:3001/api/comments/${encodeURIComponent(photo)}`)
+                .then(res => res.json())
+                .then(comments => {
+                    if (comments.length === 0) {
+                        commentsList.innerHTML = '<li style="color:#888;">No comments yet.</li>';
+                    } else {
+                        commentsList.innerHTML = '';
+                        comments.forEach(c => {
+                            const li = document.createElement('li');
+                            li.style.marginBottom = '0.5em';
+                            li.innerHTML = `<span style='color:#555;'>${c.comment}</span> <span style='color:#aaa; font-size:0.9em;'>(${new Date(c.timestamp).toLocaleString()})</span>`;
+                            commentsList.appendChild(li);
+                        });
+                    }
+                })
+                .catch(() => {
+                    commentsList.innerHTML = '<li style="color:#c00;">Failed to load comments.</li>';
+                });
+        }
 
         document.querySelectorAll('.gallery-item img').forEach(img => {
             img.addEventListener('click', function(e) {
                 // Show modal with enlarged image and description
                 modalImg.src = this.src;
                 modalImg.alt = this.alt;
-                const desc = this.parentElement.querySelector('.img-desc');
-                modalDesc.textContent = desc ? desc.textContent : '';
+                modalDesc.textContent = '';
                 modalOverlay.classList.add('active');
                 document.body.style.overflow = 'hidden';
+                // Extract just the filename for comment API
+                const srcParts = this.src.split('/');
+                currentPhoto = srcParts[srcParts.length - 1];
+                fetchComments(currentPhoto);
                 e.stopPropagation();
             });
         });
+
+        if (commentForm) {
+            commentForm.onsubmit = function(e) {
+                e.preventDefault();
+                const comment = commentInput.value.trim();
+                if (!comment || !currentPhoto) return;
+                fetch(`http://localhost:3001/api/comments/${encodeURIComponent(currentPhoto)}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ comment })
+                })
+                .then(res => res.json())
+                .then(() => {
+                    commentInput.value = '';
+                    fetchComments(currentPhoto);
+                });
+            };
+        }
 
         function closeModal() {
             modalOverlay.classList.remove('active');
@@ -306,7 +500,6 @@
         modalOverlay.addEventListener('click', function(e) {
             if (e.target === modalOverlay) closeModal();
         });
-        modalCloseBtn.addEventListener('click', closeModal);
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') closeModal();
         });

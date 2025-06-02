@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Patterns - Cute Cat Hats</title>
+    <link rel="icon" type="image/png" href="Photos/favicon.png">
+    <style>
+        :root {
+            --bg-light: #f5f6fa;
+            --bg-dark: #23272f;
+            --text-light: #23272f;
+            --text-dark: #f5f6fa;
+            --accent: #d15f70;
+            --button-bg: rgba(255,255,255,0.3);
+            --button-bg-dark: rgba(40,40,40,0.5);
+            --button-hover: rgba(255,255,255,0.6);
+            --button-hover-dark: rgba(60,60,60,0.7);
+            --side-nav-bg: #fff;
+            --side-nav-border: #eee;
+            --side-nav-link: #d15f70;
+            --side-nav-link-hover: #a13a4a;
+            --side-nav-link-bg-hover: #ffe6eb;
+            --side-nav-shadow: 2px 0 12px rgba(0,0,0,0.04);
+        }
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: var(--bg-light);
+            color: var(--text-light);
+            transition: background 0.3s, color 0.3s;
+            padding-left: 170px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        h1 {
+            font-size: 2.4rem;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+        .toggle-dark {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.5rem 1.2rem;
+            border: none;
+            border-radius: 2rem;
+            background: var(--button-bg);
+            color: var(--text-light);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            z-index: 2000;
+        }
+        .toggle-dark:hover {
+            background: var(--button-hover);
+        }
+        section {
+            margin-bottom: 2.5rem;
+        }
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+            letter-spacing: 1px;
+        }
+        .pattern-desc {
+            background: #fff;
+            border-radius: 1rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        /* Side nav styles */
+        .side-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 170px;
+            height: 100vh;
+            background: var(--side-nav-bg);
+            border-right: 1px solid var(--side-nav-border);
+            box-shadow: var(--side-nav-shadow);
+            padding-top: 2.5rem;
+            z-index: 2100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: background 0.3s, color 0.3s;
+        }
+        .side-nav a {
+            display: block;
+            color: var(--side-nav-link);
+            text-decoration: none;
+            font-weight: bold;
+            margin: 1rem 0;
+            font-size: 1.15rem;
+            padding: 0.5rem 1.2rem;
+            border-radius: 1.2rem;
+            transition: background 0.15s, color 0.15s;
+        }
+        .side-nav a.active,
+        .side-nav a:hover {
+            background: var(--side-nav-link-bg-hover);
+            color: var(--side-nav-link-hover);
+        }
+        @media (max-width: 700px) {
+            .side-nav {
+                position: static;
+                width: 100%;
+                height: auto;
+                flex-direction: row;
+                border-right: none;
+                border-bottom: 1px solid var(--side-nav-border);
+                box-shadow: none;
+                padding-top: 0.5rem;
+                justify-content: center;
+                background: var(--side-nav-bg);
+            }
+            .side-nav a {
+                margin: 0 0.5rem;
+            }
+            body {
+                padding-left: 0;
+            }
+        }
+        /* Dark mode styles */
+        body.dark {
+            background: var(--bg-dark);
+            color: var(--text-dark);
+        }
+        body.dark .toggle-dark {
+            background: var(--button-bg-dark);
+            color: var(--text-dark);
+        }
+        body.dark .toggle-dark:hover {
+            background: var(--button-hover-dark);
+        }
+        body.dark h2 {
+            color: #ffd6e0;
+        }
+        body.dark .pattern-desc {
+            background: #23272f;
+            color: #ffd6e0;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+        }
+        body.dark .side-nav {
+            background: #23272f;
+            border-right: 1px solid #333;
+            box-shadow: 2px 0 12px rgba(0,0,0,0.18);
+        }
+        body.dark .side-nav a {
+            color: #ffd6e0;
+        }
+        body.dark .side-nav a.active,
+        body.dark .side-nav a:hover {
+            background: #3a2a3a;
+            color: #fff;
+        }
+        html {
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+        html::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+    </style>
+</head>
+<body>
+    <nav class="side-nav">
+        <a href="index.html">Home</a>
+        <a href="patterns.html" class="active">Patterns</a>
+    </nav>
+    <button class="toggle-dark" id="darkModeBtn">🌙 Dark Mode</button>
+    <div class="container">
+        <header>
+            <h1>Cat Hat Pattern</h1>
+            <p>Description Here</p>
+        </header>
+
+        <section>
+            <h2>Classic Hat Pattern</h2>
+            <div class="pattern-desc">
+                <p>Description Here</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Bunny Hat Pattern</h2>
+            <div class="pattern-desc">
+                <p>Description Here</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Aviator Hat Pattern</h2>
+            <div class="pattern-desc">
+                <p>Description Here</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Chicken Hat Pattern</h2>
+            <div class="pattern-desc">
+                <p>Description Here</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Elf Hat Pattern</h2>
+            <div class="pattern-desc">
+                <p>Description Here</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Football Hat Pattern</h2>
+            <div class="pattern-desc">
+                <p>Description Here</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Graduation Hat Pattern</h2>
+            <div class="pattern-desc">
+                <p>Description Here</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Patriot Hat Pattern</h2>
+            <div class="pattern-desc">
+                <p>Description Here</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Ski Hat Pattern</h2>
+            <div class="pattern-desc">
+                <p>Description Here</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Strawberry Hat Pattern</h2>
+            <div class="pattern-desc">
+                <p>Description Here</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Unicorn Hat Pattern</h2>
+            <div class="pattern-desc">
+                <p>Description Here</p>
+            </div>
+        </section>
+        
+        <section>
+            <h2>Witch Hat Pattern</h2>
+            <div class="pattern-desc">
+                <p>Description Here</p>
+            </div>
+        </section>
+    </div>
+    <script>
+        // Dark mode toggle with localStorage (syncs between pages)
+        const btn = document.getElementById('darkModeBtn');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        function setDarkMode(on) {
+            document.body.classList.toggle('dark', on);
+            btn.textContent = on ? '☀️ Light Mode' : '🌙 Dark Mode';
+            localStorage.setItem('catHatDarkMode', on ? '1' : '0');
+        }
+        // Load preference
+        const saved = localStorage.getItem('catHatDarkMode');
+        setDarkMode(saved ? saved === '1' : prefersDark);
+        btn.onclick = () => setDarkMode(!document.body.classList.contains('dark'));
+    </script>
+</body>
+</html>
