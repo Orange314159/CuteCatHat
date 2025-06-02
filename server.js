@@ -51,6 +51,25 @@ app.post('/api/comments/:photo', (req, res) => {
     });
 });
 
+
+// Add a route to delete a comment with PIN verification
+app.delete('/api/comments/:id', (req, res) => {
+    const id = req.params.id;
+    const { pin } = req.body;
+    if (pin !== '1234') {
+        return res.status(403).json({ error: 'Invalid PIN' });
+    }
+    db.run('DELETE FROM comments WHERE id = ?', [id], function(err) {
+        if (err) {
+            res.status(500).json({ error: err.message });
+        } else if (this.changes === 0) {
+            res.status(404).json({ error: 'Comment not found' });
+        } else {
+            res.json({ success: true });
+        }
+    });
+});
+
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });

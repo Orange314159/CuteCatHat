@@ -5,286 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cute Cat Hats</title>
     <link rel="icon" type="image/png" href="Photos/favicon.png">
-    <style>
-        :root {
-            --bg-light: #f5f6fa;
-            --bg-dark: #23272f;
-            --text-light: #23272f;
-            --text-dark: #f5f6fa;
-            --accent: #d15f70;
-            --button-bg: rgba(255,255,255,0.3);
-            --button-bg-dark: rgba(40,40,40,0.5);
-            --button-hover: rgba(255,255,255,0.6);
-            --button-hover-dark: rgba(60,60,60,0.7);
-            --side-nav-bg: #fff;
-            --side-nav-border: #eee;
-            --side-nav-link: #d15f70;
-            --side-nav-link-hover: #a13a4a;
-            --side-nav-link-bg-hover: #ffe6eb;
-            --side-nav-shadow: 2px 0 12px rgba(0,0,0,0.04);
-        }
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: var(--bg-light);
-            color: var(--text-light);
-            transition: background 0.3s, color 0.3s;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 2rem;
-            /* Remove margin-left so content is centered */
-        }
-        header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        h1 {
-            font-size: 2.8rem;
-            letter-spacing: 2px;
-            margin-bottom: 0.5rem;
-        }
-        .toggle-dark {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            padding: 0.5rem 1.2rem;
-            border: none;
-            border-radius: 2rem;
-            background: var(--button-bg);
-            color: var(--text-light);
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background 0.2s, color 0.2s;
-            z-index: 2000;
-        }
-        .toggle-dark:hover {
-            background: var(--button-hover);
-        }
-        section {
-            margin-bottom: 2.5rem;
-        }
-        h2 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--accent);
-            letter-spacing: 1px;
-        }
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem 2rem; /* 1.5rem row gap, 2rem column gap for more separation */
-            width: 100%;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        @media (max-width: 1100px) {
-            .gallery {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        @media (max-width: 700px) {
-            .gallery {
-                grid-template-columns: 1fr;
-            }
-        }
-        .gallery-item {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 1.5rem; /* Extra separation between rows */
-        }
-        .gallery img {
-            image-rendering: auto;
-            width: 100%;
-            max-width: 100%;
-            display: block;
-            border-radius: 1rem;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-            object-fit: cover;
-            background: #eee;
-            transition: transform 0.2s;
-            object-position: top center; /* Center the image vertically */
-        }
-        .gallery img:hover {
-            transform: scale(1.04);
-        }
-        /* Variable photo sizes */
-        .gallery img.size-short { height: 140px; }
-        .gallery img.size-tall { height: 320px; object-fit: cover; }
-
-        /* Side nav styles */
-        .side-nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 170px;
-            height: 100vh;
-            background: var(--side-nav-bg);
-            border-right: 1px solid var(--side-nav-border);
-            box-shadow: var(--side-nav-shadow);
-            padding-top: 2.5rem;
-            z-index: 2100;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            transition: background 0.3s, color 0.3s;
-        }
-        .side-nav a {
-            display: block;
-            color: var(--side-nav-link);
-            text-decoration: none;
-            font-weight: bold;
-            margin: 1rem 0;
-            font-size: 1.15rem;
-            padding: 0.5rem 1.2rem;
-            border-radius: 1.2rem;
-            transition: background 0.15s, color 0.15s;
-        }
-        .side-nav a.active,
-        .side-nav a:hover {
-            background: var(--side-nav-link-bg-hover);
-            color: var(--side-nav-link-hover);
-        }
-        /* Center the page content by adding left padding to body */
-        body {
-            padding-left: 170px;
-        }
-        @media (max-width: 700px) {
-            .side-nav {
-                position: static;
-                width: 100%;
-                height: auto;
-                flex-direction: row;
-                border-right: none;
-                border-bottom: 1px solid var(--side-nav-border);
-                box-shadow: none;
-                padding-top: 0.5rem;
-                justify-content: center;
-                background: var(--side-nav-bg);
-            }
-            .side-nav a {
-                margin: 0 0.5rem;
-            }
-            body {
-                padding-left: 0;
-            }
-        }
-
-        /* Dark mode styles */
-        body.dark {
-            background: var(--bg-dark);
-            color: var(--text-dark);
-        }
-        body.dark .toggle-dark {
-            background: var(--button-bg-dark);
-            color: var(--text-dark);
-        }
-        body.dark .toggle-dark:hover {
-            background: var(--button-hover-dark);
-        }
-        body.dark h2 {
-            color: #ffd6e0;
-        }
-        body.dark .gallery img {
-            background: #444;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.18);
-        }
-        body.dark .side-nav {
-            background: #23272f;
-            border-right: 1px solid #333;
-            box-shadow: 2px 0 12px rgba(0,0,0,0.18);
-        }
-        body.dark .side-nav a {
-            color: #ffd6e0;
-        }
-        body.dark .side-nav a.active,
-        body.dark .side-nav a:hover {
-            background: #3a2a3a;
-            color: #fff;
-        }
-        .gallery-item {
-            position: relative;
-            display: inline-block;
-        }
-        .img-desc {
-            display: none;
-            position: absolute;
-            left: 50%;
-            top: 100%;
-            transform: translateX(-50%);
-            margin-top: 0.7rem;
-            background: rgba(40,40,40,0.85);
-            color: #fff;
-            padding: 0.6em 1.2em;
-            border-radius: 0.7em;
-            font-size: 1rem;
-            min-width: 120px;
-            max-width: 220px;
-            width: max-content;
-            text-align: center;
-            z-index: 10;
-            pointer-events: none;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.18);
-            white-space: pre-line;
-            word-break: break-word;
-        }
-        .gallery-item.active .img-desc {
-            display: block;
-            animation: fadeIn 0.2s;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateX(-50%) translateY(10px);}
-            to { opacity: 1; transform: translateX(-50%) translateY(0);}
-        }
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0; top: 0; right: 0; bottom: 0;
-            background: rgba(30,30,30,0.85);
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.2s;
-        }
-        .modal-overlay.active {
-            display: flex;
-        }
-        .modal-img-box {
-            position: relative;
-            text-align: center;
-            max-width: 90vw;
-            max-height: 90vh;
-        }
-        .modal-img-box img {
-            max-width: 90vw;
-            max-height: 70vh;
-            border-radius: 1.2rem;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.25);
-            background: #fff;
-        }
-        .modal-desc {
-            margin-top: 1.2rem;
-            background: rgba(40,40,40,0.85);
-            color: #fff;
-            padding: 0.7em 1.5em;
-            border-radius: 0.7em;
-            font-size: 1.2rem;
-            min-width: 180px;
-            display: inline-block;
-            max-width: 80vw;
-            word-break: break-word;
-        }
-        html {
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none; /* IE and Edge */
-        }
-        html::-webkit-scrollbar {
-            display: none; /* Chrome, Safari, Opera */
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <nav class="side-nav">
@@ -303,30 +24,24 @@
             <div class="gallery">
                 <div class="gallery-item">
                     <img src="Photos/BasicHat-1.jpg" alt="Cat in a hat" class="size-tall" loading="lazy">
-                    <div class="img-desc">SOMETHING HERE!</div>
                 </div>
                 <div class="gallery-item">
                     <img src="Photos/AviatorHat-2.jpg" alt="Cat in a hat" class="size-tall" loading="lazy">
-                    <div class="img-desc">SOMETHING HERE!</div>
                 </div>
                 <div class="gallery-item">
                     <img src="Photos/BasicHat-3.jpg" alt="Cat in a hat" class="size-tall" loading="lazy">
-                    <div class="img-desc">SOMETHING HERE!</div>
                 </div>
             </div>
 
             <div class="gallery">
                 <div class="gallery-item">
                     <img src="Photos/BunnyHat-1.jpg" alt="Cat in a hat" class="size-tall" loading="lazy">
-                    <div class="img-desc">SOMETHING HERE!</div>
                 </div>
                 <div class="gallery-item">
                     <img src="Photos/BunnyHat-2.jpg" alt="Cat in a hat" class="size-tall" loading="lazy">
-                    <div class="img-desc">SOMETHING HERE!</div>
                 </div>
                 <div class="gallery-item">
                     <img src="Photos/BunnyHat-3.jpg" alt="Cat in a hat" class="size-tall" loading="lazy">
-                    <div class="img-desc">SOMETHING HERE!</div>
                 </div>
             </div>
         </section>
@@ -336,30 +51,24 @@
             <div class="gallery">
                 <div class="gallery-item">
                     <img src="Photos/SkiHat-1.jpg" alt="Cat in a Santa hat" class="size-tall" loading="lazy">
-                    <div class="img-desc">SOMETHING HERE!</div>
                 </div>
                 <div class="gallery-item">
                     <img src="Photos/FlowerHat-1.jpg" alt="Cat in a pumpkin hat" class="size-tall" loading="lazy" >
-                    <div class="img-desc">SOMETHING HERE!</div>
                 </div>
                 <div class="gallery-item">
                     <img src="Photos/SkiHat-3.jpg" alt="Cat in a sun hat" class="size-tall" loading="lazy">
-                    <div class="img-desc">SOMETHING HERE!</div>
                 </div>
             </div>
 
             <div class="gallery">
                 <div class="gallery-item">
                     <img src="Photos/FootballHat-1.jpg" alt="Cat in a Santa hat" class="size-tall"loading="lazy">
-                    <div class="img-desc">SOMETHING HERE!</div>
                 </div>
                 <div class="gallery-item">
                     <img src="Photos/PatriotHat-1.jpg" alt="Cat in a pumpkin hat" class="size-tall"loading="lazy" >
-                    <div class="img-desc">SOMETHING HERE!</div>
                 </div>
                 <div class="gallery-item">
                     <img src="Photos/GraduationHat-1.jpg" alt="Cat in a sun hat" class="size-tall" loading="lazy">
-                    <div class="img-desc">SOMETHING HERE!</div>
                 </div>
             </div>
         </section>
@@ -369,30 +78,24 @@
             <div class="gallery">
                 <div class="gallery-item">
                     <img src="Photos/WitchHat-1.jpg" alt="Cat in a unicorn hat" class="size-tall" loading="lazy">
-                    <div class="img-desc">SOMETHING HERE!</div>
                 </div>
                 <div class="gallery-item">
                     <img src="Photos/ElfHat-2.jpg" alt="Cat in a wizard hat" class="size-tall" loading="lazy">
-                    <div class="img-desc">SOMETHING HERE!</div>
                 </div>
                 <div class="gallery-item">
                     <img src="Photos/StrawberryHat-2.jpg" alt="Cat in a fruit hat" class="size-tall" loading="lazy">
-                    <div class="img-desc">SOMETHING HERE!</div>
                 </div>
             </div>
 
             <div class="gallery">
                 <div class="gallery-item">
                     <img src="Photos/UnicornHat-1.jpg" alt="Cat in a unicorn hat" class="size-tall" loading="lazy">
-                    <div class="img-desc">SOMETHING HERE!</div>
                 </div>
                 <div class="gallery-item">
                     <img src="Photos/WitchHat-2.jpg" alt="Cat in a wizard hat" class="size-tall" loading="lazy">
-                    <div class="img-desc">SOMETHING HERE!</div>
                 </div>
                 <div class="gallery-item">
                     <img src="Photos/UnicornHat-2.jpg" alt="Cat in a fruit hat" class="size-tall" loading="lazy">
-                    <div class="img-desc">SOMETHING HERE!</div>
                     </div>
             </div>
         </section>
@@ -402,13 +105,17 @@
         <div class="modal-img-box">
             <img id="modalImg" src="" alt="">
             <div class="modal-desc" id="modalDesc"></div>
-            <div id="commentsSection" style="margin-top:1.5rem; text-align:left; max-width: 600px; margin-left:auto; margin-right:auto;">
-                <h3 style="margin-bottom:0.5rem; font-size:1.1rem; color:var(--accent);">Comments</h3>
-                <ul id="commentsList" style="list-style:none; padding:0; margin-bottom:1rem;"></ul>
-                <form id="commentForm" style="display:flex; gap:0.5rem;">
-                    <input id="commentInput" type="text" placeholder="Add a comment..." style="flex:1; padding:0.5em; border-radius:0.5em; border:1px solid #ccc; font-size:1rem;">
-                    <button type="submit" style="padding:0.5em 1em; border-radius:0.5em; border:none; background:var(--accent); color:#fff; font-weight:bold; cursor:pointer;">Post</button>
-                </form>
+            <div id="commentsSection">
+                <h3>Comments</h3>
+                <div class="comments-scroll">
+                    <ul id="commentsList"></ul>
+                </div>
+                <div class="comment-form-wrapper">
+                    <form id="commentForm">
+                        <input id="commentInput" type="text" placeholder="Add a comment...">
+                        <button type="submit">Post</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -448,8 +155,40 @@
                         comments.forEach(c => {
                             const li = document.createElement('li');
                             li.style.marginBottom = '0.5em';
-                            li.innerHTML = `<span style='color:#555;'>${c.comment}</span> <span style='color:#aaa; font-size:0.9em;'>(${new Date(c.timestamp).toLocaleString()})</span>`;
+                            li.innerHTML = `
+                                <span style='color:#555;'>${c.comment}</span> 
+                                <span style='color:#aaa; font-size:0.9em;'>(${new Date(c.timestamp).toLocaleString()})</span>
+                                <button class="delete-comment-btn" data-id="${c.id}" title="Delete comment" style="margin-left:0.5em; background:#eee; color:#a00; border:none; border-radius:0.3em; padding:0.1em 0.6em; cursor:pointer; font-size:0.95em;">✖</button>
+                            `;
                             commentsList.appendChild(li);
+                        });
+                        // Add event listeners for delete buttons
+                        commentsList.querySelectorAll('.delete-comment-btn').forEach(btn => {
+                            btn.addEventListener('click', function(e) {
+                                e.stopPropagation();
+                                const commentId = this.getAttribute('data-id');
+                                const pin = prompt('Enter 4-digit PIN to delete this comment:');
+                                if (pin === null) return; // Cancelled
+                                if (pin !== '1234') {
+                                    alert('Incorrect PIN.');
+                                    return;
+                                }
+                                fetch(`http://localhost:3001/api/comments/${commentId}`, {
+                                    method: 'DELETE',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ pin })
+                                })
+                                .then(res => {
+                                    if (!res.ok) throw new Error('Failed to delete');
+                                    return res.json();
+                                })
+                                .then(() => {
+                                    fetchComments(currentPhoto);
+                                })
+                                .catch(() => {
+                                    alert('Failed to delete comment.');
+                                });
+                            });
                         });
                     }
                 })
@@ -475,10 +214,10 @@
         });
 
         if (commentForm) {
-            commentForm.onsubmit = function(e) {
+            commentForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 const comment = commentInput.value.trim();
-                if (!comment || !currentPhoto) return;
+                if (!comment) return false;
                 fetch(`http://localhost:3001/api/comments/${encodeURIComponent(currentPhoto)}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -489,7 +228,8 @@
                     commentInput.value = '';
                     fetchComments(currentPhoto);
                 });
-            };
+                return false;
+            });
         }
 
         function closeModal() {
@@ -497,37 +237,15 @@
             document.body.style.overflow = '';
         }
 
-        modalOverlay.addEventListener('click', function(e) {
-            if (e.target === modalOverlay) closeModal();
+        // Allow closing modal by clicking outside the modal-img-box
+        modalOverlay.addEventListener('mousedown', function(e) {
+            // Only close if the user clicks directly on the overlay (not inside modal-img-box or comments section)
+            if (!e.target.closest('.modal-img-box')) {
+            closeModal();
+            }
         });
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') closeModal();
-        });
-
-        // Existing popup description logic (optional: you may remove if modal replaces it)
-        document.querySelectorAll('.gallery-item img').forEach(img => {
-            img.addEventListener('click', function(e) {
-                document.querySelectorAll('.gallery-item').forEach(item => item.classList.remove('active'));
-                this.parentElement.classList.add('active');
-                if (this.parentElement.classList.contains('was-active')) {
-                    this.parentElement.classList.remove('active', 'was-active');
-                } else {
-                    this.parentElement.classList.add('was-active');
-                }
-                e.stopPropagation();
-            });
-        });
-        document.body.addEventListener('click', function() {
-            document.querySelectorAll('.gallery-item').forEach(item => {
-                item.classList.remove('active', 'was-active');
-            });
-        });
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                document.querySelectorAll('.gallery-item').forEach(item => {
-                    item.classList.remove('active', 'was-active');
-                });
-            }
         });
     </script>
 </body>
