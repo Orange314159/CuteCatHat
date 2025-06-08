@@ -22,28 +22,35 @@ body {
     background: var(--bg-light);
     color: var(--text-light);
     transition: background 0.3s, color 0.3s;
-    padding-left: 170px;
+    padding-left: 14vw !important;
 }
 .container {
-    max-width: 900px;
+    max-width: 96vw;
+    width: 100%;
     margin: 0 auto;
-    padding: 2rem;
-    /* Remove margin-left so content is centered */
+    padding: 3vw 4vw; /* More padding on the outside */
+    box-sizing: border-box;
 }
 header {
     text-align: center;
     margin-bottom: 2rem;
 }
 h1 {
-    font-size: 2.8rem;
-    letter-spacing: 2px;
-    margin-bottom: 0.5rem;
+    font-size: 3vw;
+    margin-bottom: 1vw;
+}
+h2 {
+    font-size: 2vw;
+    margin-bottom: 1vw;
 }
 .toggle-dark {
     position: fixed;
-    top: 1rem;
-    right: 1rem;
-    padding: 0.5rem 1.2rem;
+    left: 0.75vw;
+    bottom: 2vw;
+    right: auto;
+    top: auto;
+    margin: 0;
+    padding: 0.7rem 1.5rem;
     border: none;
     border-radius: 2rem;
     background: var(--button-bg);
@@ -51,13 +58,14 @@ h1 {
     font-size: 1rem;
     cursor: pointer;
     transition: background 0.2s, color 0.2s;
-    z-index: 2000;
+    z-index: 2200; /* Above sidebar */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 .toggle-dark:hover {
     background: var(--button-hover);
 }
 section {
-    margin-bottom: 2.5rem;
+    margin-bottom: 4vw;
 }
 h2 {
     font-size: 1.5rem;
@@ -66,68 +74,61 @@ h2 {
     letter-spacing: 1px;
 }
 .gallery {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem 2rem; /* 1.5rem row gap, 2rem column gap for more separation */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 1vw 1vw; /* Less space between images */
     width: 100%;
-    max-width: 900px;
+    max-width: 100%;
     margin: 0 auto;
 }
-@media (max-width: 1100px) {
-    .gallery {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-@media (max-width: 700px) {
-    .gallery {
-        grid-template-columns: 1fr;
-    }
-}
 .gallery-item {
-    position: relative;
+    margin-bottom: 0;
+    flex: 0 1 18vw; /* More square, less wide/tall */
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    margin-bottom: 1.5rem; /* Extra separation between rows */
+    padding: 0.5vw;
 }
 .gallery img,
 .modal-img-box img {
-    user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-    -moz-user-select: none;
-    pointer-events: auto;
-}
-.gallery img {
-    image-rendering: auto;
     width: 100%;
-    max-width: 100%;
-    display: block;
-    border-radius: 1rem;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    max-width: 18vw;
+    min-width: 140px;
+    aspect-ratio: 4/5; /* More square-ish, not extreme rectangle */
+    height: auto;
+    border-radius: 1vw;
+    box-shadow: 0 0.5vw 2vw rgba(0,0,0,0.08);
     object-fit: cover;
     background: #eee;
     transition: transform 0.2s;
-    object-position: top center; /* Center the image vertically */
-}
-.gallery img:hover {
-    transform: scale(1.04);
+    object-position: center center;
+    display: block;
+    margin: 0 auto;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 /* Variable photo sizes */
-.gallery img.size-short { height: 140px; }
-.gallery img.size-tall { height: 320px; object-fit: cover; }
+.gallery img.size-short { aspect-ratio: 4/4.5; }
+.gallery img.size-tall { aspect-ratio: 4/6; }
 
 /* Side nav styles */
 .side-nav {
     position: fixed;
     top: 0;
     left: 0;
-    width: 170px;
+    width: 14vw !important;
+    min-width: 120px !important;
+    max-width: 200px !important;
     height: 100vh;
     background: var(--side-nav-bg);
     border-right: 1px solid var(--side-nav-border);
     box-shadow: var(--side-nav-shadow);
-    padding-top: 2.5rem;
+    padding-top: 2vw !important;
+    padding-bottom: 2vw !important;
     z-index: 2100;
     display: flex;
     flex-direction: column;
@@ -152,28 +153,38 @@ h2 {
 }
 /* Center the page content by adding left padding to body */
 body {
-    padding-left: 170px;
+    padding-left: 14vw;
+}
+@media (max-width: 1100px) {
+    .gallery-item {
+        flex: 0 1 28vw;
+    }
+    .gallery img,
+    .modal-img-box img {
+        max-width: 28vw;
+    }
 }
 @media (max-width: 700px) {
-    .side-nav {
-        position: static;
-        width: 100%;
-        height: auto;
-        flex-direction: row;
-        border-right: none;
-        border-bottom: 1px solid var(--side-nav-border);
-        box-shadow: none;
-        padding-top: 0.5rem;
-        justify-content: center;
-        background: var(--side-nav-bg);
+    .gallery {
+        flex-direction: column;
+        align-items: center;
     }
-    .side-nav a {
-        margin: 0 0.5rem;
+    .gallery-item {
+        flex: 1 1 100%;
+        max-width: 98vw;
+        padding: 1vw 0;
     }
-    body {
-        padding-left: 0;
+    .gallery img,
+    .modal-img-box img {
+        max-width: 90vw;
+        min-width: 0;
+    }
+    .modal-overlay {
+        display: none !important;
     }
 }
+
+
 
 /* Dark mode styles */
 body.dark {
@@ -216,6 +227,8 @@ body.dark .side-nav a:hover {
     position: fixed;
     z-index: 1000;
     left: 0; top: 0; right: 0; bottom: 0;
+    width: 100vw;
+    height: 100vh;
     background: rgba(30,30,30,0.85);
     justify-content: center;
     align-items: center;
@@ -226,35 +239,42 @@ body.dark .side-nav a:hover {
     align-items: center;
     justify-content: center;
 }
+
 .modal-img-box {
     position: relative;
-    text-align: center;
-    max-width: 90vw;
-    max-height: 90vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
+    display: inline-block;      /* Shrink-wrap to image */
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    box-shadow: none;
+    width: auto !important;
+    height: auto !important;
+    max-width: none !important;
+    max-height: none !important;
+    vertical-align: middle;
 }
+
 .modal-img-box img {
-    max-width: 96vw;
-    max-height: 65vh;
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 90vw;
+    max-height: 80vh;
     border-radius: 1.2rem;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
-    background: #fff;
+    /* box-shadow: 0 8px 32px rgba(0,0,0,0); */
+    background: transparent;
+    object-fit: contain contain;
+    object-position: center center;
+    margin: 0;
+    padding: 0;
 }
 .modal-desc {
-    margin-top: 0.5rem;
-    margin-bottom: 0.7rem; /* Add a bit more space below the description */
-    background: rgba(40,40,40,0.85);
-    color: #fff;
-    padding: 0.7em 1.5em;
-    border-radius: 0.7em;
-    font-size: 1.2rem;
-    min-width: 180px;
-    display: inline-block;
+    margin-top: 0.1vw;   /* Greatly reduced space above comments */
+    margin-bottom: 1vw;
+    padding: 0.1vw 0.2vw;
+    border-radius: 1vw;
+    font-size: 1.2vw;
+    min-width: 20vw;
     max-width: 80vw;
     word-break: break-word;
 }
@@ -268,7 +288,7 @@ html::-webkit-scrollbar {
 }
 body {
     /* Remove overflow: hidden so scrolling works */
-    padding-left: 170px;
+    padding-left: 14vw;
 }
 .comments-scroll {
     flex: 1 1 auto;
@@ -282,25 +302,27 @@ body {
     display: none; /* Hide scrollbar in Webkit browsers */
 }
 #commentsSection {
-    margin-top: 1.5rem;
-    background: rgba(255, 255, 255, 0.9);
-    padding: 1rem;
-    border-radius: 0.7em;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    margin-top: 1vw;              /* Reduced space above comments */
+    background: rgba(255, 255, 255, 0.92);
+    padding: 0.7vw 1vw;
+    border-radius: 0.7vw;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
     display: flex;
     flex-direction: column;
     flex: 1 1 auto;
     min-height: 0;
-    max-width: 600px;
+    max-width: 60vw;
     width: 100%;
     text-align: left;
     margin-left: auto;
     margin-right: auto;
+    font-size: 1rem;              /* Constant, readable font size */
+    overflow: hidden;
 }
 body.dark #commentsSection {
     background: #181a20;
     color: #f5f6fa;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.35);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.22);
 }
 #commentsSection h3 {
     margin: 0 0 1rem 0;
@@ -311,72 +333,128 @@ body.dark #commentsSection {
     flex: 1 1 auto;
     min-height: 0;
     overflow-y: auto;
-    margin-bottom: 1rem;
+    margin-bottom: 1vw;
     background: transparent;
-}
-.comments-scroll::-webkit-scrollbar {
-    width: 8px;
-}
-.comments-scroll::-webkit-scrollbar-thumb {
-    background-color: var(--accent);
-    border-radius: 4px;
-}
-.comments-scroll::-webkit-scrollbar-track {
-    background: transparent;
+    max-height: 22vh;             /* Prevents comments from overflowing modal */
+    font-size: 1rem;              /* Constant font size */
+    word-break: break-word;       /* Prevents long comments from overflowing */
+    padding-right: 0.5vw;
 }
 #commentsList {
     list-style: none;
     padding: 0;
     margin: 0;
+    max-width: 100%;
 }
 #commentsList li {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4em;
+    font-size: 1rem;              /* Constant font size */
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 #commentsList li span {
     display: inline-block;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 .comment-form-wrapper {
     flex-shrink: 0;
 }
 #commentForm {
     display: flex;
-    gap: 0.5rem;
+    gap: 1vw;
 }
 #commentInput {
-    flex: 1;
-    padding: 0.5em;
-    border-radius: 0.5em;
-    border: 1px solid #ccc;
-    font-size: 1rem;
+    padding: 0.3em 0.6em;
+    border-radius: 0.4em;
+    font-size: 0.85em;
+    max-width: 60%;
+    box-sizing: border-box;
 }
 #commentForm button {
-    padding: 0.5em 1em;
-    border-radius: 0.5em;
+    padding: 0.3em 1em;
+    border-radius: 0.4em;
+    font-size: 0.85em;
+    margin-left: 0.5em;
+}
+.close-modal-btn {
+    position: absolute;
+    top: 1vw;
+    right: 1vw;
+    width: 3vw;
+    height: 3vw;
     border: none;
-    background: var(--accent);
-    color: #fff;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.95);
+    color: #d32f2f;
+    font-size: 1.6vw;
     font-weight: bold;
     cursor: pointer;
-    transition: background 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, color 0.2s;
+    z-index: 10;
+    outline: none;
 }
-#commentForm button:hover {
-    background: #b94a63;
+.close-modal-btn:hover, .close-modal-btn:focus {
+    background: #ffd6d6;
+    color: #a00;
 }
-@media (max-width: 600px) {
-  .modal-img-box img {
-    max-width: 98vw;
-    max-height: 45vh;
-  }
-  .modal-desc {
-    margin-top: 0.3rem;
-    margin-bottom: 0.5rem;
-  }
-  #commentsSection {
-    max-width: 98vw;
-    font-size: 0.98em;
-    padding: 0.5rem;
-  }
-  .comments-scroll {
-    max-height: none;
-  }
+body.dark .close-modal-btn {
+    background: rgba(40,40,40,0.95);
+    color: #ff6b6b;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+}
+body.dark .close-modal-btn:hover, body.dark .close-modal-btn:focus {
+    background: #3a2a2a;
+    color: #ff2222;
+}
+/* Link styles for light and dark mode */
+a, a:visited {
+    color: var(--accent) !important;
+    text-decoration: underline;
+    transition: color 0.2s;
+    cursor: pointer;
+}
+a:hover, a:focus {
+    color: #a13a4a !important;
+    text-decoration: underline;
+}
+body.dark a, body.dark a:visited {
+    color: #ffd6e0 !important;
+}
+body.dark a:hover, body.dark a:focus {
+    color: #ffb3c6 !important;
+}
+/* Center pattern headers and paragraphs, add separation */
+.pattern-desc {
+    text-align: center;
+    margin: 2vw auto 2.5vw auto;
+    padding: 1.2vw 2vw;
+    background: rgba(240,240,255,0.7);
+    border-radius: 1vw;
+    max-width: 700px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+}
+body.dark .pattern-desc {
+    background: rgba(40,40,40,0.7);
+}
+.pattern-desc p {
+    margin: 0.7em 0;
+    font-size: 1.1em;
+    line-height: 1.7;
+}
+.pattern-desc a {
+    display: inline-block;
+    margin-top: 0.5em;
+    word-break: break-all;
+}
+section > h2 {
+    text-align: center;
+    margin-top: 2vw;
+    margin-bottom: 0.7vw;
 }

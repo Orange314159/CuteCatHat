@@ -103,6 +103,7 @@
     <!-- Modal overlay for enlarged image -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-img-box">
+            <button id="closeModalBtn" class="close-modal-btn" title="Close">✖</button>
             <img id="modalImg" src="" alt="">
             <div class="modal-desc" id="modalDesc"></div>
             <div id="commentsSection">
@@ -141,6 +142,7 @@
         const commentsList = document.getElementById('commentsList');
         const commentForm = document.getElementById('commentForm');
         const commentInput = document.getElementById('commentInput');
+        const closeModalBtn = document.getElementById('closeModalBtn');
         let currentPhoto = null;
 
         function fetchComments(photo) {
@@ -199,6 +201,10 @@
 
         document.querySelectorAll('.gallery-item img').forEach(img => {
             img.addEventListener('click', function(e) {
+                // Disable popup on mobile-like screens (width <= 900px or portrait/tall aspect)
+                const isMobileLike = window.innerWidth <= 900 || window.innerWidth / window.innerHeight < 1;
+                if (isMobileLike) return;
+
                 // Show modal with enlarged image and description
                 modalImg.src = this.src;
                 modalImg.alt = this.alt;
@@ -247,6 +253,13 @@
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') closeModal();
         });
+
+        if (closeModalBtn) {
+            closeModalBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                closeModal();
+            });
+        }
     </script>
 </body>
 </html>
