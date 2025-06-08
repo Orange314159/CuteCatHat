@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FAQ - Cute Cat Hats</title>
+    <link rel="icon" type="image/png" href="Photos/favicon.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="side-nav">
+        <a href="index.html">Home</a>
+        <a href="patterns.html">Patterns</a>
+        <a href="faq.html" class="active">FAQ</a>
+    </nav>
+    <button class="toggle-dark" id="darkModeBtn">🌙 Dark Mode</button>
+    <div class="container">
+        <header>
+            <h1>Frequently Asked Questions</h1>
+        </header>
+
+        <section>
+            <h2>Who are you?</h2>
+            <div class="pattern-desc"><p>We are Emily and Andrea, a loving set of sisters who love our kitties. 
+                Emily lives in the US with her husband and two sons, and Andrea lives overseas with her husband.</p></div>
+        </section>
+
+        <section>
+            <h2>What have you done here?</h2>
+            <div class="pattern-desc"><p>This website was created as a way for us to showcase our silly project that we are building to share with our family. 
+                Please enjoy it for the funny silly space to enjoy our crazy cute felines wearing some sister created treasures. 
+                If this inspires you to do the same for your (hopefully willing) pets, great! If you have an idea for a holiday that we forgot please leave a comment. 
+                If you want to buy a set of cat hats so you can put your own darling cat in some darling hats read on!</p></div>
+        </section>
+
+        <section>
+            <h2>Why did you start making hats for your cats?</h2>
+            <div class="pattern-desc"><p>One day Emily, the knitting sister, came across an internet pic of a cat wearing a fancy hat and thought it would be a funny thing to make.
+                 She tried in vain to find the pattern but could not. This started a casual internet search for a cat hat that she could make as a joke.
+                 She found a crochet pattern for an Easter Bunny hat and made it and sent the funny picture to Andrea, the crocheting sister. 
+                 Andrea saw it and IMMEDIATELY looked up a pattern for a bunny and a chickie hat and made two of her own. Emily's cats (see info below) were MUCH more interested in being models for these creations than Andrea's neighbor's cats, but the idea had been planted . . <br> 
+                 Andrea had spent her crafting time the previous year crocheting an Advent calendar and decided to engage Emily in a fun sister cat hat calendar project. 
+                 Easter/April was covered, so a plan to brainstorm a hat per month and have a family cat calendar was underway. </p></div>
+        </section>
+
+        <section>
+            <h2>How many cats do you have?</h2>
+            <div class="pattern-desc"><p>Emily technically has 1 cat, a lovely ginger kitty named Tiger (a boy), and Andrea technically has 1 cat, an all black street rescue from South Korea named Ronald (a girl).  <br>
+Currently Andrea's cat lives with Emily and her family in the US while Andrea is living overseas. Andrea has weekly zoom calls with <s>Ronald</s> Emily in which Ronald has no interest, but Andrea treasures. </p></div>
+    </section>
+    
+    </div>
+    <script>
+    // Dark mode toggle with localStorage (syncs between pages)
+    const btn = document.getElementById('darkModeBtn');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    function setDarkMode(on) {
+        document.body.classList.toggle('dark', on);
+        btn.textContent = on ? '☀️ Light Mode' : '🌙 Dark Mode';
+        localStorage.setItem('catHatDarkMode', on ? '1' : '0');
+    }
+    // Load preference
+    const saved = localStorage.getItem('catHatDarkMode');
+    setDarkMode(saved ? saved === '1' : prefersDark);
+    btn.onclick = () => setDarkMode(!document.body.classList.contains('dark'));
+    </script>
+</body>
+</html>

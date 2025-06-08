@@ -11,8 +11,10 @@
     <nav class="side-nav">
         <a href="index.html" class="active">Home</a>
         <a href="patterns.html">Patterns</a>
+        <a href="faq.html">FAQ</a>
     </nav>
     <button class="toggle-dark" id="darkModeBtn">🌙 Dark Mode</button>
+    <audio id="catHatSound" src="Sounds/TestSound.mp3" preload="auto"></audio>
     <div class="container">
         <header>
             <h1>Cute Cat Hats</h1>
@@ -205,6 +207,13 @@
                 const isMobileLike = window.innerWidth <= 900 || window.innerWidth / window.innerHeight < 1;
                 if (isMobileLike) return;
 
+                // Play sound
+                const audio = document.getElementById('catHatSound');
+                if (audio) {
+                    audio.currentTime = 0;
+                    audio.play();
+                }
+
                 // Show modal with enlarged image and description
                 modalImg.src = this.src;
                 modalImg.alt = this.alt;
@@ -241,6 +250,12 @@
         function closeModal() {
             modalOverlay.classList.remove('active');
             document.body.style.overflow = '';
+            // Stop and reset sound
+            const audio = document.getElementById('catHatSound');
+            if (audio) {
+                audio.pause();
+                audio.currentTime = 0;
+            }
         }
 
         // Allow closing modal by clicking outside the modal-img-box
