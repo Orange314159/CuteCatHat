@@ -45,10 +45,11 @@ h2 {
 }
 .toggle-dark {
     position: fixed;
-    left: 0.75vw;
+    left: 0;
     bottom: 2vw;
-    right: auto;
-    top: auto;
+    width: 14vw;
+    max-width: 140px;
+    min-width: 0;
     margin: 0;
     padding: 0.7rem 1.5rem;
     border: none;
@@ -60,6 +61,9 @@ h2 {
     transition: background 0.2s, color 0.2s;
     z-index: 2200; /* Above sidebar */
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .toggle-dark:hover {
     background: var(--button-hover);
@@ -121,8 +125,7 @@ h2 {
     top: 0;
     left: 0;
     width: 14vw !important;
-    min-width: 120px !important;
-    max-width: 200px !important;
+    max-width: 140px !important;
     height: 100vh;
     background: var(--side-nav-bg);
     border-right: 1px solid var(--side-nav-border);
@@ -156,6 +159,14 @@ body {
     padding-left: 14vw;
 }
 @media (max-width: 1100px) {
+    .side-nav {
+        width: 18vw !important;
+        min-width: 14vw !important;
+        max-width: 24vw !important;
+    }
+    body {
+        padding-left: 18vw !important;
+    }
     .gallery-item {
         flex: 0 1 28vw;
     }
