@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cat Chat Room</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .chat-container {
+            max-width: 500px;
+            margin: 3em auto;
+            background: #fff;
+            border-radius: 1em;
+            box-shadow: 0 2px 12px #0002;
+            padding: 2em;
+        }
+        
+        .login-box,
+        .chat-box {
+            display: none;
+        }
+        
+        .active {
+            display: block;
+        }
+        
+        .chat-messages {
+            height: 250px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            border-radius: 0.5em;
+            padding: 1em;
+            background: #f9f9f9;
+            margin-bottom: 1em;
+        }
+        
+        .chat-input {
+            display: flex;
+            gap: 0.5em;
+        }
+        
+        .chat-input input {
+            flex: 1;
+        }
+        
+        .chat-message {
+            margin-bottom: 0.7em;
+        }
+        
+        .chat-message span {
+            font-weight: bold;
+            color: #3a3a3a;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chat-container">
+        <div class="login-box active" id="loginBox">
+            <h2>Login to Cat Chat</h2>
+            <form id="loginForm">
+                <input type="text" id="username" placeholder="Username" required><br><br>
+                <input type="password" id="password" placeholder="Password" required><br><br>
+                <button type="submit">Login</button>
+            </form>
+            <div id="loginMsg" style="color:#c00; margin-top:1em;"></div>
+        </div>
+        <div class="chat-box" id="chatBox">
+            <h2>Cat Chat Room</h2>
+            <div class="chat-messages" id="chatMessages"></div>
+            <form id="chatForm" class="chat-input">
+                <input type="text" id="chatInput" placeholder="Type a message..." autocomplete="off" required>
+                <button type="submit">Send</button>
+            </form>
+            <button id="logoutBtn" style="margin-top:1em;">Logout</button>
+        </div>
+    </div>
+    <script>
+        // --- Login and Chat Logic ---
+        const loginBox = document.getElementById('loginBox');
+        const chatBox = document.getElementById('chatBox');
+        const loginForm = document.getElementById('loginForm');
+        const loginMsg = document.getElementById('loginMsg');
+        const chatForm = document.getElementById('chatForm');
+        const chatInput = document.getElementById('chatInput');
+        const chatMessages = document.getElementById('chatMessages');
+        const logoutBtn = document.getElementById('logoutBtn');
+        let username = '';
+
+        function showLogin() {
+            loginBox.classList.add('active');
+            chatBox.classList.remove('active');
+        }
+
+        function showChat() {
+            loginBox.classList.remove('active');
+            chatBox.classList.add('active');
+        }
+
+        // Check if already logged in
+        if (localStorage.getItem('catChatUser')) {
+            username = localStorage.getItem('catChatUser');
+            showChat();
+            loadMessages();
+        }
+
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const user = document.getElementById('username').value.trim();
+            const pass = document.getElementById('password').value;
+            if (!user || !pass) return;
+            fetch('http://localhost:3001/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: user,
+                        password: pass
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        username = user;
+                        localStorage.setItem('catChatUser', username);
+                        showChat();
+                        loadMessages();
+                    } else {
+                        loginMsg.textContent = data.error || 'Login failed.';
+                    }
+                })
+                .catch(() => {
+                    loginMsg.textContent = 'Server error.';
+                });
+        });
+
+        chatForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const msg = chatInput.value.trim();
+            if (!msg) return;
+            fetch('http://localhost:3001/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username,
+                        message: msg
+                    })
+                })
+                .then(res => res.json())
+                .then(() => {
+                    chatInput.value = '';
+                    loadMessages();
+                });
+        });
+
+        function loadMessages() {
+            fetch('http://localhost:3001/api/chat')
+                .then(res => res.json())
+                .then(data => {
+                    chatMessages.innerHTML = '';
+                    data.forEach(m => {
+                        const div = document.createElement('div');
+                        div.className = 'chat-message';
+                        div.innerHTML = `<span>${m.username}:</span> ${m.message} <span style='color:#aaa;font-size:0.9em;'>(${new Date(m.timestamp).toLocaleString()})</span>`;
+                        chatMessages.appendChild(div);
+                    });
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                });
+        }
+
+        logoutBtn.addEventListener('click', function() {
+            localStorage.removeItem('catChatUser');
+            username = '';
+            showLogin();
+            chatMessages.innerHTML = '';
+            loginMsg.textContent = '';
+        });
+    </script>
+</body>
+
+</html>
