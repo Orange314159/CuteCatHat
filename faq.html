@@ -13,7 +13,6 @@
         <a href="patterns.html">Patterns</a>
         <a href="faq.html" class="active">FAQ</a>
     </nav>
-    <button class="toggle-dark" id="darkModeBtn">🌙 Dark Mode</button>
     <div class="container">
         <header>
             <h1>Frequently Asked Questions</h1>
@@ -50,19 +49,10 @@ Currently Andrea's cat lives with Emily and her family in the US while Andrea is
     </section>
     
     </div>
+
     <script>
-    // Dark mode toggle with localStorage (syncs between pages)
-    const btn = document.getElementById('darkModeBtn');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    function setDarkMode(on) {
-        document.body.classList.toggle('dark', on);
-        btn.textContent = on ? '☀️ Light Mode' : '🌙 Dark Mode';
-        localStorage.setItem('catHatDarkMode', on ? '1' : '0');
-    }
-    // Load preference
-    const saved = localStorage.getItem('catHatDarkMode');
-    setDarkMode(saved ? saved === '1' : prefersDark);
-    btn.onclick = () => setDarkMode(!document.body.classList.contains('dark'));
+        // Track visit
+        fetch('/api/visit', { method: 'POST' }).catch(err => console.error('Visit track failed:', err));
     </script>
 </body>
 </html>
