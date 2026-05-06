@@ -5,17 +5,18 @@
     --text-light: #23272f;
     --text-dark: #f5f6fa;
     --accent: #d15f70;
-    --button-bg: rgba(255,255,255,0.3);
-    --button-bg-dark: rgba(40,40,40,0.5);
-    --button-hover: rgba(255,255,255,0.6);
-    --button-hover-dark: rgba(60,60,60,0.7);
+    --button-bg: rgba(255, 255, 255, 0.3);
+    --button-bg-dark: rgba(40, 40, 40, 0.5);
+    --button-hover: rgba(255, 255, 255, 0.6);
+    --button-hover-dark: rgba(60, 60, 60, 0.7);
     --side-nav-bg: #fff;
     --side-nav-border: #eee;
     --side-nav-link: #d15f70;
     --side-nav-link-hover: #a13a4a;
     --side-nav-link-bg-hover: #ffe6eb;
-    --side-nav-shadow: 2px 0 12px rgba(0,0,0,0.04);
+    --side-nav-shadow: 2px 0 12px rgba(0, 0, 0, 0.04);
 }
+
 body {
     margin: 0;
     font-family: 'Segoe UI', Arial, sans-serif;
@@ -26,21 +27,26 @@ body {
     flex-direction: row;
     min-height: 100vh;
 }
+
 .container {
     flex: 1;
-    max-width: 100%;
-    margin: 0;
-    padding: 3vw 4vw;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px;
     box-sizing: border-box;
+    width: 100%;
 }
+
 header {
     text-align: center;
     margin-bottom: 2rem;
 }
+
 h1 {
     font-size: 3vw;
     margin-bottom: 1vw;
 }
+
 h2 {
     font-size: 2vw;
     margin-bottom: 1vw;
@@ -49,54 +55,61 @@ h2 {
 section {
     margin-bottom: 4vw;
 }
+
 h2 {
     font-size: 1.5rem;
     margin-bottom: 1rem;
     color: var(--accent);
     letter-spacing: 1px;
 }
+
 .gallery {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 1vw 1vw; /* Less space between images */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
     width: 100%;
-    max-width: 100%;
-    margin: 0 auto;
+    margin: 30px 0;
+    justify-items: center;
 }
+
 .gallery-item {
-    margin-bottom: 0;
-    flex: 0 1 18vw; /* More square, less wide/tall */
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0.5vw;
 }
+
 .gallery img,
 .modal-img-box img {
     width: 100%;
-    max-width: 18vw;
-    min-width: 140px;
-    aspect-ratio: 4/5; /* More square-ish, not extreme rectangle */
     height: auto;
-    border-radius: 1vw;
-    box-shadow: 0 0.5vw 2vw rgba(0,0,0,0.08);
+    aspect-ratio: 4/5;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
     object-fit: cover;
     background: #eee;
-    transition: transform 0.2s;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
     object-position: center center;
     display: block;
-    margin: 0 auto;
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
+    cursor: pointer;
 }
+
+.gallery img:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+}
+
 /* Variable photo sizes */
-.gallery img.size-short { aspect-ratio: 4/4.5; }
-.gallery img.size-tall { aspect-ratio: 4/6; }
-.gallery img.size-wide { aspect-ratio: 6/4; }
+.gallery img.size-short {
+    aspect-ratio: 4/4.5;
+}
+
+.gallery img.size-tall {
+    aspect-ratio: 4/6;
+}
+
+.gallery img.size-wide {
+    aspect-ratio: 6/4;
+}
 
 /* Side nav styles */
 .side-nav {
@@ -113,6 +126,7 @@ h2 {
     transition: background 0.3s, color 0.3s;
     z-index: 2100;
 }
+
 .side-nav a {
     display: block;
     color: var(--side-nav-link);
@@ -124,6 +138,7 @@ h2 {
     border-radius: 1.2rem;
     transition: background 0.15s, color 0.15s;
 }
+
 .side-nav a.active,
 .side-nav a:hover {
     background: var(--side-nav-link-bg-hover);
@@ -131,11 +146,16 @@ h2 {
 }
 
 /* Combined mobile and portrait strategy, plus JS fail-safe class */
-@media (max-width: 1100px), (orientation: portrait) {
-    body, body.mobile-layout {
+@media (max-width: 1100px),
+(orientation: portrait) {
+
+    body,
+    body.mobile-layout {
         flex-direction: column;
     }
-    .side-nav, body.mobile-layout .side-nav {
+
+    .side-nav,
+    body.mobile-layout .side-nav {
         flex: 0 0 auto;
         width: 100% !important;
         max-width: 100% !important;
@@ -147,27 +167,33 @@ h2 {
         border-right: none;
         border-bottom: 1px solid var(--side-nav-border);
     }
-    .side-nav a, body.mobile-layout .side-nav a {
+
+    .side-nav a,
+    body.mobile-layout .side-nav a {
         margin: 5px 10px;
         font-size: 1.1rem;
         padding: 8px 15px;
     }
 
-    .gallery, body.mobile-layout .gallery {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
+    .gallery,
+    body.mobile-layout .gallery {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
         gap: 15px;
+        padding: 10px;
     }
-    .gallery-item, body.mobile-layout .gallery-item {
-        flex: 0 1 45%;
-        max-width: 45%;
-        padding: 5px;
+
+    .gallery-item,
+    body.mobile-layout .gallery-item {
+        padding: 0;
     }
-    .gallery img, .modal-overlay img, body.mobile-layout .gallery img {
+
+    .gallery img,
+    .modal-overlay img,
+    body.mobile-layout .gallery img {
         max-width: 100%;
         min-width: 0;
     }
+
     .modal-overlay {
         display: none !important;
     }
@@ -177,6 +203,7 @@ h2 {
 body.mobile-layout {
     flex-direction: column !important;
 }
+
 body.mobile-layout .side-nav {
     flex: 0 0 auto !important;
     width: 100% !important;
@@ -189,11 +216,13 @@ body.mobile-layout .side-nav {
     border-right: none !important;
     border-bottom: 1px solid var(--side-nav-border) !important;
 }
+
 body.mobile-layout .side-nav a {
     margin: 5px 10px !important;
     font-size: 1.1rem !important;
     padding: 8px 15px !important;
 }
+
 body.mobile-layout .gallery-item {
     flex: 0 1 45% !important;
     max-width: 45% !important;
@@ -208,43 +237,54 @@ body.mobile-layout .gallery-item {
         background: var(--bg-dark);
         color: var(--text-dark);
     }
+
     h2 {
         color: #ffd6e0;
     }
+
     .gallery img {
         background: #444;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
     }
+
     .side-nav {
         background: #23272f;
         border-right: 1px solid #333;
-        box-shadow: 2px 0 12px rgba(0,0,0,0.18);
+        box-shadow: 2px 0 12px rgba(0, 0, 0, 0.18);
     }
+
     .side-nav a {
         color: #ffd6e0;
     }
+
     .side-nav a.active,
     .side-nav a:hover {
         background: #3a2a3a;
         color: #fff;
     }
 }
+
 .gallery-item {
     position: relative;
     display: inline-block;
 }
+
 .modal-overlay {
     display: none;
     position: fixed;
     z-index: 1000;
-    left: 0; top: 0; right: 0; bottom: 0;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(30,30,30,0.85);
+    background: rgba(30, 30, 30, 0.85);
     justify-content: center;
     align-items: center;
     transition: opacity 0.2s;
 }
+
 .modal-overlay.active {
     display: flex;
     align-items: center;
@@ -253,7 +293,8 @@ body.mobile-layout .gallery-item {
 
 .modal-img-box {
     position: relative;
-    display: inline-block;      /* Shrink-wrap to image */
+    display: inline-block;
+    /* Shrink-wrap to image */
     padding: 0;
     margin: 0;
     background: transparent;
@@ -279,8 +320,10 @@ body.mobile-layout .gallery-item {
     margin: 0;
     padding: 0;
 }
+
 .modal-desc {
-    margin-top: 0.1vw;   /* Greatly reduced space above comments */
+    margin-top: 0.1vw;
+    /* Greatly reduced space above comments */
     margin-bottom: 1vw;
     padding: 0.1vw 0.2vw;
     border-radius: 1vw;
@@ -289,13 +332,18 @@ body.mobile-layout .gallery-item {
     max-width: 80vw;
     word-break: break-word;
 }
+
 html {
     /* Hide scrollbars but allow scrolling */
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
 }
+
 html::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
+    display: none;
+    /* Chrome, Safari, Opera */
 }
 
 
@@ -307,12 +355,12 @@ html::-webkit-scrollbar {
     height: 3vw;
     border: none;
     border-radius: 50%;
-    background: rgba(255,255,255,0.95);
+    background: rgba(255, 255, 255, 0.95);
     color: #d32f2f;
     font-size: 1.6vw;
     font-weight: bold;
     cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -320,66 +368,85 @@ html::-webkit-scrollbar {
     z-index: 10;
     outline: none;
 }
-.close-modal-btn:hover, .close-modal-btn:focus {
+
+.close-modal-btn:hover,
+.close-modal-btn:focus {
     background: #ffd6d6;
     color: #a00;
 }
+
 @media (prefers-color-scheme: dark) {
     .close-modal-btn {
-        background: rgba(40,40,40,0.95);
+        background: rgba(40, 40, 40, 0.95);
         color: #ff6b6b;
-        box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
     }
-    .close-modal-btn:hover, .close-modal-btn:focus {
+
+    .close-modal-btn:hover,
+    .close-modal-btn:focus {
         background: #3a2a2a;
         color: #ff2222;
     }
 }
+
 /* Link styles for light and dark mode */
-a, a:visited {
+a,
+a:visited {
     color: var(--accent) !important;
     text-decoration: underline;
     transition: color 0.2s;
     cursor: pointer;
 }
-a:hover, a:focus {
+
+a:hover,
+a:focus {
     color: #a13a4a !important;
     text-decoration: underline;
 }
+
 @media (prefers-color-scheme: dark) {
-    a, a:visited {
+
+    a,
+    a:visited {
         color: #ffd6e0 !important;
     }
-    a:hover, a:focus {
+
+    a:hover,
+    a:focus {
         color: #ffb3c6 !important;
     }
 }
+
 /* Center pattern headers and paragraphs, add separation */
 .pattern-desc {
     text-align: center;
     margin: 2vw auto 2.5vw auto;
     padding: 1.2vw 2vw;
-    background: rgba(240,240,255,0.7);
+    background: rgba(240, 240, 255, 0.7);
     border-radius: 1vw;
     max-width: 700px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
 }
+
 @media (prefers-color-scheme: dark) {
     .pattern-desc {
-        background: rgba(40,40,40,0.7);
+        background: rgba(40, 40, 40, 0.7);
     }
 }
+
 .pattern-desc p {
     margin: 0.7em 0;
     font-size: 1.1em;
     line-height: 1.7;
 }
+
 .pattern-desc a {
     display: inline-block;
     margin-top: 0.5em;
     word-break: break-all;
 }
-section > h2 {
+
+section>h2 {
     text-align: center;
     margin-top: 2vw;
     margin-bottom: 0.7vw;

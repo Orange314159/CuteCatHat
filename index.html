@@ -9,12 +9,12 @@
 </head>
 <body>
     <script>
-        // Strategy: Detect orientation or small window width to force mobile layout
+        // Strategy: Only force mobile layout if screen is narrow or in portrait mode.
         function checkMobile() {
-            const isPortrait = window.innerHeight > window.innerWidth;
-            const isNarrow = window.innerWidth <= 1100;
-            const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-            if (isPortrait || isNarrow || isTouch) {
+            const isNarrow = window.innerWidth <= 900;
+            const isPortrait = window.innerHeight > window.innerWidth && window.innerWidth <= 1024;
+            
+            if (isPortrait || isNarrow) {
                 document.body.classList.add('mobile-layout');
             } else {
                 document.body.classList.remove('mobile-layout');
@@ -46,9 +46,7 @@
                 <div class="gallery-item">
                     <img src="Photos/TigerFlower1.jpg" alt="Cat in a hat" class="size-tall" loading="lazy">
                 </div>
-            </div>
 
-            <div class="gallery">
                 <div class="gallery-item">
                     <img src="Photos/TigerFootball1.jpg" alt="Cat in a hat" class="size-tall" loading="lazy">
                 </div>
@@ -74,9 +72,7 @@
                 <div class="gallery-item">
                     <img src="Photos/RonaldPatriot1-Best.jpg" alt="Cat in a hat" class="size-tall" loading="lazy">
                 </div>
-            </div>
 
-            <div class="gallery">
                 <div class="gallery-item">
                     <img src="Photos/TigerWitch1-Best.jpg" alt="Cat in a hat" class="size-tall"loading="lazy">
                 </div>
@@ -86,9 +82,7 @@
                 <div class="gallery-item">
                     <img src="Photos/Tiger Elf.JPG" alt="Cat in a hat" class="size-tall" loading="lazy">
                 </div>
-            </div>
 
-            <div class="gallery">
                 <div class="gallery-item">
                     <img src="Photos/Ronald Reindeer.JPG" alt="Cat in a hat" class="size-tall"loading="lazy">
                 </div>
@@ -115,9 +109,7 @@
                 <div class="gallery-item">
                     <img src="Photos/RonaldStrawberry3.jpg" alt="Cat in a hat" class="size-tall" loading="lazy">
                 </div>
-            </div>
 
-            <div class="gallery">
                 <div class="gallery-item">
                     <img src="Photos/RonaldDinosaur2-Corrected.jpg" alt="Cat in a hat" class="size-tall" loading="lazy">
                 </div>
@@ -127,9 +119,7 @@
                 <div class="gallery-item">
                     <img src="Photos/TigerPenguin1.jpg" alt="Cat in a hat" class="size-tall" loading="lazy">
                     </div>
-            </div>
 
-            <div class="gallery">
                 <div class="gallery-item">
                     <img src="Photos/ronald_corn.jpg" alt="Cat in a hat" class="size-tall" loading="lazy">
                 </div>

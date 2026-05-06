@@ -10,10 +10,9 @@
 <body>
     <script>
         function checkMobile() {
-            const isPortrait = window.innerHeight > window.innerWidth;
-            const isNarrow = window.innerWidth <= 1100;
-            const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-            if (isPortrait || isNarrow || isTouch) {
+            const isNarrow = window.innerWidth <= 900;
+            const isPortrait = window.innerHeight > window.innerWidth && window.innerWidth <= 1024;
+            if (isPortrait || isNarrow) {
                 document.body.classList.add('mobile-layout');
             } else {
                 document.body.classList.remove('mobile-layout');
