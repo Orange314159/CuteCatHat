@@ -8,6 +8,20 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <script>
+        function checkMobile() {
+            const isPortrait = window.innerHeight > window.innerWidth;
+            const isNarrow = window.innerWidth <= 1100;
+            const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+            if (isPortrait || isNarrow || isTouch) {
+                document.body.classList.add('mobile-layout');
+            } else {
+                document.body.classList.remove('mobile-layout');
+            }
+        }
+        window.addEventListener('resize', checkMobile);
+        checkMobile();
+    </script>
     <nav class="side-nav">
         <a href="index.html">Home</a>
         <a href="patterns.html" class="active">Patterns</a>
