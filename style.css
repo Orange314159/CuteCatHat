@@ -22,7 +22,7 @@ body {
     background: var(--bg-light);
     color: var(--text-light);
     transition: background 0.3s, color 0.3s;
-    padding-left: 14vw !important;
+    padding-left: 14vw;
 }
 .container {
     max-width: 96vw;
@@ -131,43 +131,23 @@ h2 {
     background: var(--side-nav-link-bg-hover);
     color: var(--side-nav-link-hover);
 }
-/* Center the page content by adding left padding to body */
-body {
-    padding-left: 14vw;
-}
+
 @media (max-width: 1100px) {
-    .side-nav {
-        width: 18vw !important;
-        min-width: 14vw !important;
-        max-width: 24vw !important;
-    }
-    body {
-        padding-left: 18vw !important;
-    }
-    .gallery-item {
-        flex: 0 1 28vw;
-    }
-    .gallery img,
-    .modal-img-box img {
-        max-width: 28vw;
-    }
-}
-@media (max-width: 700px) {
     .side-nav {
         width: 100% !important;
         max-width: 100% !important;
         height: auto;
         flex-direction: row;
         justify-content: center;
-        padding: 1vw 0 !important;
-        position: static;
+        padding: 15px 0 !important;
+        position: relative;
         border-right: none;
         border-bottom: 1px solid var(--side-nav-border);
     }
     .side-nav a {
-        margin: 0.5rem;
-        font-size: 1rem;
-        padding: 0.4rem 0.8rem;
+        margin: 5px 10px;
+        font-size: 1.1rem;
+        padding: 8px 15px;
     }
     body {
         padding-left: 0 !important;
@@ -177,12 +157,12 @@ body {
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 2vw;
+        gap: 15px;
     }
     .gallery-item {
         flex: 0 1 45%;
         max-width: 45%;
-        padding: 0;
+        padding: 5px;
     }
     .gallery img,
     .modal-img-box img {
@@ -291,10 +271,7 @@ html {
 html::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera */
 }
-body {
-    /* Remove overflow: hidden so scrolling works */
-    padding-left: 14vw;
-}
+
 
 .close-modal-btn {
     position: absolute;
